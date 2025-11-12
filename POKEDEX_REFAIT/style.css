@@ -1,0 +1,63 @@
+body {
+    font-family: "Zen Dots", sans-serif;
+    background-image:  url('/images/fond.jpg');
+    margin: 0;
+    padding: 2rem;
+}
+
+#pokemon-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 1.5rem;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.pokemon-item {
+    background: rgb(236, 240, 197);
+    border-radius: 16px;
+    border: 5px solid red;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    padding: 1rem;
+    cursor: pointer;
+    position: relative;
+}
+
+.pokemon-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+}
+
+.pokemon-details .image {
+  list-style-type: none;
+}
+
+.pokemon-details img {
+    width: 100%;
+    max-width: 150px;
+    border-radius: 12px;
+    margin: 0.5rem auto;
+    display: block;
+    transition: transform 0.3s ease;
+}
+
+.type {
+  font-size: 0.9rem;
+  color: #555;
+}
+
+.weight {
+  font-size: 0.9rem;
+  color: #777;
+}
+
+.previous-evolution {
+  font-size: 0.9rem;
+  color: #00695c;
+}
+
+.next-evolution {
+  font-size: 0.9rem;
+  color: #08786b;
+}
