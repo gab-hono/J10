@@ -1,4 +1,5 @@
 const root = document.getElementById('root');
+let allPokemon = [];
 
 async function pokemonResponse() {
     const response = await fetch(
@@ -6,6 +7,7 @@ async function pokemonResponse() {
     );
 
     const data = await response.json(); 
+    allPokemon = data.pokemon;
 
     const mainList = document.createElement('ul');
     mainList.id = 'pokemon-cards';
@@ -19,9 +21,38 @@ async function pokemonResponse() {
     const searchButton = document.getElementById("search-button");
     const inputField = document.getElementById("pokemon-input");
 
-    for (let i = 0; i < data.pokemon.length; i++) {
-        const pkmData = data.pokemon[i];
+    renderPokemonList(allPokemon);
 
+    searchButton.addEventListener("click", () => {
+        const searchTerm = inputField.value.trim().toLowerCase();
+
+        if (!searchTerm) return;
+
+        const filtered = allPokemon.filter(pkm =>
+            pkm.name.toLowerCase() === searchTerm || pkm.num === searchTerm.padStart(3, '0')
+        );
+
+        root.innerHTML = '';
+
+        if (filtered.length > 0) {
+            renderPokemonList(filtered);
+            showBackButton();
+        } else {
+            const message = document.createElement('p');
+            message.id = 'not-found';
+            message.textContent = 'Pokémon not found';
+            root.appendChild(message);
+            showBackButton();
+        }
+    });
+}
+
+function renderPokemonList(list) {
+    const mainList = document.createElement('ul');
+    mainList.id = 'pokemon-cards';
+    root.appendChild(mainList);
+
+    list.forEach(pkmData => {
         const pokemonItem = document.createElement('ul');
         pokemonItem.classList.add('pokemon-item');
         pokemonItem.innerHTML = '';
@@ -90,9 +121,22 @@ async function pokemonResponse() {
             pkmNextEv.innerHTML = `Next Evolutions: ${nextNames}`;
             detailsList.appendChild(pkmNextEv);
         }
-    }
+    });
+}
 
-    
+function showBackButton() {
+    const pokedexContainer = document.getElementById('pokedex-container');
+
+    const backButton = document.createElement('button');
+    backButton.id = 'back-button';
+    backButton.textContent = '← Back and search for a new Pokemon';
+    backButton.addEventListener('click', () => {
+        root.innerHTML = '';
+        renderPokemonList(allPokemon);
+        backButton.remove();
+    });
+
+    pokedexContainer.appendChild(backButton);
 }
 
 pokemonResponse();
