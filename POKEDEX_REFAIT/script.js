@@ -8,16 +8,38 @@ async function pokemonResponse() {
     const data = await response.json(); 
 
     const mainList = document.createElement('ul');
-    mainList.id = 'pokemon-list';
+    mainList.id = 'pokemon-cards';
     root.appendChild(mainList);
+
+    const resultContainer = document.createElement('div');
+    resultContainer.id = 'search-result';
+    const pokedexContainer = document.getElementById('pokedex-container');
+    pokedexContainer.appendChild(resultContainer);
+
+    const searchButton = document.getElementById("search-button");
+    const inputField = document.getElementById("pokemon-input");
 
     for (let i = 0; i < data.pokemon.length; i++) {
         const pkmData = data.pokemon[i];
 
-        const pokemonItem = document.createElement('li');
+        const pokemonItem = document.createElement('ul');
         pokemonItem.classList.add('pokemon-item');
-        pokemonItem.innerHTML = `Number: ${pkmData.num} - Name: ${pkmData.name}`;
+        pokemonItem.innerHTML = '';
         mainList.appendChild(pokemonItem);
+
+        const pokemonHeader = document.createElement('div');
+        pokemonHeader.classList.add('pokemon-header');
+        pokemonItem.appendChild(pokemonHeader);
+
+        const pokemonNumber = document.createElement('li');
+        pokemonNumber.classList.add('pokemon-number');
+        pokemonNumber.innerHTML = pkmData.num;
+        pokemonHeader.appendChild(pokemonNumber);
+
+        const pokemonName = document.createElement('li');
+        pokemonName.classList.add('pokemon-name');
+        pokemonName.innerHTML = pkmData.name;
+        pokemonHeader.appendChild(pokemonName);
 
         const detailsList = document.createElement('ul');
         detailsList.classList.add('pokemon-details');
@@ -32,8 +54,6 @@ async function pokemonResponse() {
         pkmType.classList.add('type');
         pkmType.innerHTML = `Type: ${pkmData.type.join(', ')}`;
         detailsList.appendChild(pkmType);
-
-
 
         const pkmWeight = parseFloat(pkmData.weight);
         if (pkmWeight > 10) {
@@ -71,6 +91,8 @@ async function pokemonResponse() {
             detailsList.appendChild(pkmNextEv);
         }
     }
+
+    
 }
 
 pokemonResponse();
